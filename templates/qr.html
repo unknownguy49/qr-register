@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your QR Code</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body class="dark-bg">
+    <div class="container">
+      <h1>Registration Successful</h1>
+      <div class="qr-card">
+        <img
+          src="data:image/png;base64,{{ qr_base64 }}"
+          alt="QR Code"
+          class="qr-img"
+        />
+        <p class="qr-message">
+          Don't forget to save the QR or take a screenshot
+        </p>
+        <a id="downloadBtn" class="download-btn" download="qr_code.png"
+          >Download QR</a
+        >
+      </div>
+      <div class="user-info">
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Registration Number:</strong> {{ regno }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+      </div>
+    </div>
+    <script>
+      // Set download link for QR image
+      window.onload = function () {
+        var img = document.querySelector(".qr-img");
+        var downloadBtn = document.getElementById("downloadBtn");
+        downloadBtn.href = img.src;
+      };
+    </script>
+  </body>
+</html>
