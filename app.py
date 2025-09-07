@@ -11,7 +11,18 @@ def register():
         name = request.form['name']
         regno = request.form['regno']
         email = request.form['email']
-        qr_data = f"REG-NAME:{name}-REGNO:{regno}-EMAIL:{email}"
+        error = None
+        import re
+        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w{2,}$'
+        if not re.match(email_pattern, email):
+            error = "Invalid email address."
+        elif len(regno) > 10:
+            error = "Registration number must not exceed 10 characters."
+        elif len(name) > 40:
+            error = "Name must not exceed 40 characters."
+        if error:
+            return render_template('register.html', error=error, name=name, regno=regno, email=email)
+        qr_data = f"REG-NAME: {name}\nREGNO: {regno}\nEMAIL: {email}"
         img = qrcode.make(qr_data)
         buf = io.BytesIO()
         img.save(buf, format='PNG')
